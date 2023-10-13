@@ -1,8 +1,16 @@
-//? CodeWithFlexz on Instagram
-
-//* AmirBayat0 on Github
-//! Programming with Flexz on Youtube
-
+//
+// Created by CodeWithFlexZ
+// Tutorials on my YouTube
+//
+//! Instagram
+//! @CodeWithFlexZ
+//
+//? GitHub
+//? AmirBayat0
+//
+//* YouTube
+//* Programming with FlexZ
+//
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -17,39 +25,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  GetMaterialApp(
+    return GetMaterialApp(
       title: 'Flutter Fetch Data using Dio',
       debugShowCheckedModeBanner: false,
       home: HomeView(),
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

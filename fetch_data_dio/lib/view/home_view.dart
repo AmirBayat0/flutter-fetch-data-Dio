@@ -1,9 +1,10 @@
-// ignore_for_file: must_be_immutable
-
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:lottie/lottie.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
@@ -15,12 +16,13 @@ import '../utils/constants.dart';
 class HomeView extends StatelessWidget {
   HomeView({Key? key}) : super(key: key);
 
-  HomeController homeController = Get.put(HomeController());
+  final HomeController homeController = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: MyColors.bgColor,
+      extendBody: true,
+      backgroundColor: Colors.grey.shade900,
       appBar: _buildAppBar(),
       floatingActionButton: Obx(() =>
           homeController.isInternetConnect.value ? _buildFAB() : Container()),
@@ -35,21 +37,52 @@ class HomeView extends StatelessWidget {
               : _buildNoInternetConnection(context),
         ),
       ),
+      bottomNavigationBar: _buildBottomNavigationBar(),
     );
   }
 
+  /// Bottom Navigation Bar
+  Widget _buildBottomNavigationBar() {
+    return CurvedNavigationBar(
+      backgroundColor: Colors.transparent,
+      color: const Color.fromARGB(255, 22, 22, 22),
+      items: const <Widget>[
+        Icon(
+          Icons.explore,
+          size: 30,
+          color: Colors.white,
+        ),
+        Icon(
+          Icons.search,
+          size: 30,
+          color: Colors.white,
+        ),
+        Icon(
+          Icons.settings,
+          size: 30,
+          color: Colors.white,
+        ),
+        Icon(
+          Icons.person,
+          size: 30,
+          color: Colors.white,
+        ),
+      ],
+      onTap: (index) {},
+    );
+  }
 
   /// AppBar
   AppBar _buildAppBar() {
     return AppBar(
       backgroundColor: MyColors.prColor,
       centerTitle: true,
-      title: const Text("Restful API - Dio"),
+      title: const Text("GetX • Rest API • Dio"),
     );
   }
-  
+
   /// Floating Action Button
-  FloatingActionButton _buildFAB() {
+  Widget _buildFAB() {
     return FloatingActionButton(
       onPressed: () {
         homeController.isListViewScrollToTheDown.value
@@ -65,8 +98,8 @@ class HomeView extends StatelessWidget {
     );
   }
 
-  /// When Internet is't Okay, show thsi widget
-  Center _buildNoInternetConnection(BuildContext context) {
+  /// When Internet is't Okay, show this widget
+  Widget _buildNoInternetConnection(BuildContext context) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -77,6 +110,8 @@ class HomeView extends StatelessWidget {
             child: Lottie.asset('assets/b.json'),
           ),
           MaterialButton(
+            minWidth: 130,
+            height: 45,
             onPressed: () => _materialOnTapButton(context),
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
@@ -85,8 +120,8 @@ class HomeView extends StatelessWidget {
               "Try Again",
               style: TextStyle(
                   color: Colors.white,
-                  fontWeight: FontWeight.w300,
-                  fontSize: 12),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16),
             ),
           )
         ],
@@ -95,9 +130,10 @@ class HomeView extends StatelessWidget {
   }
 
   /// Main Body
-  RefreshIndicator _buildMainBody() {
-    return RefreshIndicator(
+  Widget _buildMainBody() {
+    return LiquidPullToRefresh(
       color: MyColors.prColor,
+      showChildOpacityTransition: true,
       onRefresh: () {
         return homeController.getPosts();
       },
@@ -114,25 +150,38 @@ class HomeView extends StatelessWidget {
               );
             },
             child: Card(
+              color: const Color.fromARGB(255, 9, 9, 9),
               child: ListTile(
                 leading: Container(
                   width: 50,
                   height: 50,
                   decoration: BoxDecoration(
-                    color: Colors.grey[400],
-                    borderRadius: BorderRadius.circular(7),
+                    color: Colors.grey[900],
+                    borderRadius: BorderRadius.circular(20),
                   ),
                   child: Center(
-                    child: Text(homeController.posts[index].id.toString()),
+                    child: Text(
+                      homeController.posts[index].id.toString(),
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 19,
+                          color: Colors.white),
+                    ),
                   ),
                 ),
                 title: Text(
                   homeController.posts[index].title,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 19,
+                      color: Colors.white),
                 ),
                 subtitle: Text(
                   homeController.posts[index].body,
                   style: const TextStyle(
                     fontWeight: FontWeight.w300,
+                    fontSize: 16,
+                    color: Colors.grey,
                   ),
                 ),
               ),
@@ -144,15 +193,16 @@ class HomeView extends StatelessWidget {
   }
 
   /// Loading Widget
-  Center _buildLoading() {
-    return Center(
+  Widget _buildLoading() {
+    return const Center(
       child: SizedBox(
-        width: 150,
-        height: 150,
-        child: Lottie.asset(
-          'assets/a.json',
-        ),
-      ),
+          width: 150,
+          height: 150,
+          child: Center(
+            child: CupertinoActivityIndicator(
+              color: Colors.white,
+            ),
+          )),
     );
   }
 
@@ -161,7 +211,7 @@ class HomeView extends StatelessWidget {
     if (await InternetConnectionChecker().hasConnection == true) {
       homeController.getPosts();
     } else {
-      showCustomSnackBar(context);
+      showCustomSnackBar(context: context);
     }
   }
 }

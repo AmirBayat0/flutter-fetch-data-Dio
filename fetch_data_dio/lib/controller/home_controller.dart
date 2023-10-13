@@ -15,15 +15,14 @@ class HomeController extends GetxController {
   var url = "https://jsonplaceholder.typicode.com/posts";
   var itemController = ItemScrollController();
 
-  /// For Chcecking Internet Conection
-  isInternrtConnect() async {
-    isInternetConnect.value  = await InternetConnectionChecker().hasConnection;
-     
+  /// For Checking Internet Connection
+  isInternatConnect() async {
+    isInternetConnect.value = await InternetConnectionChecker().hasConnection;
   }
 
-  /// Callin Api and getting data From server
+  /// Calling Api and getting data From server
   getPosts() async {
-    isInternrtConnect();
+    isInternatConnect();
     isLoading.value = true;
     var response = await DioService().getMethod(url);
 
@@ -37,7 +36,7 @@ class HomeController extends GetxController {
     }
   }
 
-  /// Scroll Listview To Down
+  /// Scroll ListView To Down
   scrollListViewDownward() {
     itemController.scrollTo(
         index: posts.length - 4,
@@ -46,7 +45,7 @@ class HomeController extends GetxController {
     isListViewScrollToTheDown.value = true;
   }
 
-  /// Scroll Listview To Up
+  /// Scroll ListView To Up
   scrollListViewUpward() {
     itemController.scrollTo(
         index: 0,
@@ -58,7 +57,7 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     getPosts();
-    isInternrtConnect();
+    isInternatConnect();
     super.onInit();
   }
 }
