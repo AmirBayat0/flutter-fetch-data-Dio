@@ -1,7 +1,7 @@
 # Flutter - Dio Package Example
 ## Fetching Data From the server using Dio with GetX + internet connectivity check
 ### [Watch on YouTube](https://youtu.be/qoLk-vcVtSE?si=4oJqFcuDWwW2L2XR)
-![maxresdefault](https://github.com/AmirBayat0/flutter-fetch-data-Dio/assets/91388754/6cd11f9e-e51c-4716-9dce-6c537af7884a)
+![new](https://github.com/AmirBayat0/flutter-fetch-data-Dio/assets/91388754/fc6b08aa-bee0-4d30-a441-671091d2539c)
 
 
  ## This link allows you to support me, and I really appreciate your help:
